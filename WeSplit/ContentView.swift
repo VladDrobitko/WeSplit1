@@ -25,6 +25,12 @@ struct ContentView: View {
         return grandTotal
         
     }
+    var totalCheck: Double {
+        let tipSelection = Double(tipPercentage)
+        let tipValue = checkAmount / 100 * tipSelection
+        let grandTotal = checkAmount + tipValue
+        return grandTotal
+    }
     var body: some View {
         NavigationStack {
             Form {
@@ -40,6 +46,7 @@ struct ContentView: View {
                     }
                     .pickerStyle(.navigationLink)
                     
+                    
                     VStack(alignment: .leading, spacing: 5) {
                         Text("How much do you tip?")
                             .font(.system(.subheadline))
@@ -51,9 +58,24 @@ struct ContentView: View {
                         }
                         .pickerStyle(.segmented)
                     }
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("The total amount for the check is:")
+                            .font(.system(.subheadline))
+                            .foregroundStyle(Color.secondary)
+                        Section {
+                            Text(totalCheck, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                        }
+                    }
                 }
-                Section {
-                    Text(totalPerPeerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                
+                
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Amount per person is:")
+                        .font(.system(.subheadline))
+                        .foregroundStyle(Color.secondary)
+                    Section {
+                        Text(totalPerPeerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    }
                 }
             }
             .navigationTitle("WeSplit")
